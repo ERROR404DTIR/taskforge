@@ -27,9 +27,9 @@ def main():
   sql="SELECT * FROM tasks WHERE 1=1"; vals=[]
   if not args.all_boards: sql+=" AND board=?"; vals.append(args.board)
   if args.status: sql+=" AND status=?"; vals.append(args.status)
-  rows=c.execute(sql+" ORDER BY CASE status WHEN 'doing' THEN 0 WHEN 'todo' THEN 1 ELSE 2 END, CASE priority WHEN 'high' THEN 0 WHEN 'normal' THEN 1 ELSE 2 END, due",vals)
+  rows=c.execute(sql+" ORDER BY CASE status WHEN 'doing' THEN 0 WHEN 'todo' THEN 1 ELSE 2 END, CASE priority WHEN 'high' THEN 0 WHEN 'normal' THEN 1 ELSE 2 END, due",vals).fetchall()
   for status in STATUSES:
-   print("\n"+status.upper())
+   print("\\n"+status.upper())
    for x in rows:
     if x["status"]==status: print(f"  #{x['id']} [{x['priority']}] {x['title']}"+(f" — due {x['due']}" if x["due"] else "")+f"  ({x['board']})")
  elif args.cmd=="delete":
